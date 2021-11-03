@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PHPStan\Reflection\ClassReflection;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\Node\AttributeKey;
@@ -72,8 +73,16 @@ final class PhpSpecMockCollector
 
     public function isVariableMockInProperty(Variable $variable): bool
     {
+        $scope = $variable->getAttribute(AttributeKey::SCOPE);
+
         $variableName = $this->nodeNameResolver->getName($variable);
-        $className = $variable->getAttribute(AttributeKey::CLASS_NAME);
+
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            throw new ShouldNotHappenException();
+        }
+
+        $className = $classReflection->getName();
 
         return in_array($variableName, $this->propertyMocksByClass[$className] ?? [], true);
     }

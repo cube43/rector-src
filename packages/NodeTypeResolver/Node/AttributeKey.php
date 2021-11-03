@@ -25,6 +25,8 @@ final class AttributeKey
     public const USE_NODES = 'useNodes';
 
     /**
+     * @deprecated To avoid multiple way to maintain class name.
+     * Use more reliable Scope or $this->getName() instead
      * @var string
      */
     public const CLASS_NAME = 'className';

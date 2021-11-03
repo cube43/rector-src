@@ -99,8 +99,10 @@ CODE_SAMPLE
             return null;
         }
 
+        $scope = $node->getAttribute(AttributeKey::SCOPE);
+
         $this->resolvedNodeNames = $this->useManipulator->resolveUsedNameNodes($searchNode);
-        $this->resolvedDocPossibleAliases = $this->docAliasResolver->resolve($searchNode);
+        $this->resolvedDocPossibleAliases = $this->docAliasResolver->resolve($searchNode, $scope);
 
         $this->useNamesAliasToName = $this->useNameAliasToNameResolver->resolve($this->file, $node);
 

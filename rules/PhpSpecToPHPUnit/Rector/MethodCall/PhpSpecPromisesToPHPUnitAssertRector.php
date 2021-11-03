@@ -206,7 +206,10 @@ final class PhpSpecPromisesToPHPUnitAssertRector extends AbstractPhpSpecToPHPUni
         $classLike = $methodCall->getAttribute(AttributeKey::CLASS_NODE);
 
         $this->matchersKeys = $this->matchersManipulator->resolveMatcherNamesFromClass($classLike);
-        $this->testedClass = $this->phpSpecRenaming->resolveTestedClass($methodCall);
+
+        $scope = $methodCall->getAttribute(AttributeKey::SCOPE);
+
+        $this->testedClass = $this->phpSpecRenaming->resolveTestedClass($methodCall, $scope);
         $this->testedObjectPropertyFetch = $this->createTestedObjectPropertyFetch($classLike);
 
         $this->isPrepared = true;

@@ -89,8 +89,10 @@ CODE_SAMPLE
             return null;
         }
 
-        /** @var string $className */
-        $className = $node->getAttribute(AttributeKey::CLASS_NAME);
+        $className = $this->getName($classLike);
+//
+//        /** @var string $className */
+//        $className = $node->getAttribute(AttributeKey::CLASS_NAME);
 
         foreach ($this->methodByParentTypes as $type => $method) {
             if (! $this->isObjectType($classLike, new ObjectType($type))) {

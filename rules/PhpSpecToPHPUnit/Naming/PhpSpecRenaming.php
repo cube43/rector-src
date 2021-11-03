@@ -11,6 +11,8 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Namespace_;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\Core\Util\StaticRectorStrings;
@@ -103,10 +105,17 @@ final class PhpSpecRenaming
         return lcfirst($bareClassName);
     }
 
-    public function resolveTestedClass(Node $node): string
+    public function resolveTestedClass(Node $node, Scope $scope): string
     {
-        /** @var string $className */
-        $className = $node->getAttribute(AttributeKey::CLASS_NAME);
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            throw new ShouldNotHappenException();
+        }
+
+        $className = $classReflection->getName();
+
+        // /** @var string $className */
+//        $className = $node->getAttribute(AttributeKey::CLASS_NAME);
 
         $newClassName = StaticRectorStrings::removePrefixes($className, ['spec\\']);
 

@@ -37,7 +37,7 @@ final class ClassMethodOrClassConstTypeResolver implements NodeTypeResolverInter
     /**
      * @param ClassMethod|ClassConst $node
      */
-    public function resolve(Node $node): Type
+    public function resolve(Node $node, \PHPStan\Analyser\Scope $scope): Type
     {
         $classLike = $node->getAttribute(AttributeKey::CLASS_NODE);
         if (! $classLike instanceof ClassLike) {

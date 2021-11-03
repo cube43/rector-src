@@ -7,6 +7,7 @@ namespace Rector\CodingStyle\Node;
 use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
+use PHPStan\Analyser\Scope;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfo;
@@ -31,7 +32,7 @@ final class DocAliasResolver
     /**
      * @return string[]
      */
-    public function resolve(Node $node): array
+    public function resolve(Node $node, Scope $scope): array
     {
         $possibleDocAliases = [];
 
